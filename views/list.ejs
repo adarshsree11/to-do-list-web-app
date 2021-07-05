@@ -5,12 +5,15 @@
     </div>
 
     <div class="box">
-        <% for(var i=0; i<newListItems.length; i++){ %>
-        <div class="item">
-            <input type="checkbox">
-            <p><%= newListItems[i] %></p>
-        </div>
-        <% } %> 
+        <% newListItems.forEach(function(listItem){ %>
+        <form>
+            <div class="item">
+                <input type="checkbox">
+                <p><%= listItem.name %></p>
+            </div>
+        </form>
+        <% }) %> 
+        
             
         <form class="item" action="/" method="post">
         

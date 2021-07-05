@@ -17,30 +17,68 @@ const itemsSchema = {
 
 const Item = mongoose.model("Item", itemsSchema);
 
-var newListItems = [];
-var workItems = [];
+const item1 = new Item({
+    name:"Welcome"
+});
+
+const item2 = new Item({
+    name:"to your"
+});
+
+const item3 = new Item({
+    name:"list"
+});
+
+var defautlItems = [item1, item2, item3];
+
+//var newListItems = [];
+//var workItems = [];
 
 app.get("/", function(req, res){
 
 //    var day = date.getDate();
-    res.render("List", {listHeading: "Today",
-        newListItems: newListItems
+
+
+    Item.find(function(err, result){
+
+        if(result.length ===0){
+            Item.insertMany(defautlItems, function(err){
+                if(err){
+                    console.log(err);
+                }
+                else{
+                    console.log("Succesfully added default items!");
+                }
+            })
+            res.redirect("/");
+        }
+        else{
+            res.render("List", {listHeading: "Today",
+                newListItems: result
+            });
+        }
     });
-    
 })
 
 app.post("/", function(req, res){
 
-    let item = req.body.newItem;
+    let itemName = req.body.newItem;
 
-    if(req.body.button === "Work"){
-        workItems.push(item);
-        res.redirect("/work");
-    }
-    else{
-        newListItems.push(item);
-        res.redirect("/");
-    }
+    const item = new Item({
+        name:itemName
+    });
+
+    item.save();
+    res.redirect("/");
+
+    // if(req.body.button === "Work"){
+    //     workItems.push(item);
+    //     res.redirect("/work");
+    // }
+    // else{
+    //     newListItems.push(item);
+    //     res.redirect("/");
+    // }
     
 })
 
