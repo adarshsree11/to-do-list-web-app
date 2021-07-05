@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const date = require(__dirname+ "/date.js");
+const mongoose = require("mongoose");
+// const date = require(__dirname+ "/date.js");
 
 const app = express();
 
@@ -8,13 +9,21 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 app.set('view engine', 'ejs');
 
+mongoose.connect("mongodb://localhost:27017/todolistDB", {useNewUrlParser: true});
+
+const itemsSchema = {
+    name:String
+};
+
+const Item = mongoose.model("Item", itemsSchema);
+
 var newListItems = [];
 var workItems = [];
 
 app.get("/", function(req, res){
 
-    var day = date.getDate();
-    res.render("List", {listHeading: day,
+//    var day = date.getDate();
+    res.render("List", {listHeading: "Today",
         newListItems: newListItems
     });
     
