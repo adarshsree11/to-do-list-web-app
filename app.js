@@ -15,7 +15,13 @@ const itemsSchema = {
     name:String
 };
 
+const listSchema = {
+    name: String,
+    items: [itemsSchema]
+};
+
 const Item = mongoose.model("Item", itemsSchema);
+const List = mongoose.model("List", listSchema);
 
 const item1 = new Item({
     name:"Welcome"
@@ -80,6 +86,25 @@ app.post("/", function(req, res){
     //     res.redirect("/");
     // }
     
+})
+
+app.get("/:customListName", function(req, res){
+    const customListName =  req.params.customListName;
+})
+
+app.post("/delete", function(req, res){
+    const checkedItemId = req.body.checkbox;
+
+    Item.findByIdAndDelete(checkedItemId, function(err){
+        if(err){
+            console.log(err);
+        }
+        else{
+            console.log(checkedItemId +" removed!");
+        }
+    });
+    res.redirect("/");
+
 })
 
 app.get("/work", function(req, res){
