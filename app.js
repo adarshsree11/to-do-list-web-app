@@ -90,6 +90,26 @@ app.post("/", function(req, res){
 
 app.get("/:customListName", function(req, res){
     const customListName =  req.params.customListName;
+
+    List.findOne({name: customListName}, function(err, result){
+        if(!err){
+            if(!result){
+                const list = new List({
+                    name: customListName,
+                    items: defautlItems
+                });
+                list.save();
+                res.redirect("/"+customListName);
+            }
+            else{
+                res.render("List", {listHeading: result.name,
+                    newListItems: result
+                });
+            }
+        }
+    });
+
+    
 })
 
 app.post("/delete", function(req, res){
