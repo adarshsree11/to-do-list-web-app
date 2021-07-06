@@ -11,6 +11,7 @@
                 <input type="checkbox" name="checkbox" value=<%= listItem._id %> onchange="this.form.submit()">
                 <p><%= listItem.name %></p>
             </div>
+            <input type="hidden" name="listName" value="<%= listHeading %>" ></input>
         </form>
         <% }) %> 
         
@@ -18,7 +19,7 @@
         <form class="item" action="/" method="post">
         
             <input type="text" name="newItem" autofocus autocomplete="off">
-            <button type="submit" name="button" value=<%= listHeading %> >+</button>
+            <button type="submit" name="list" value="<%= listHeading %>" >+</button>
         </form>
     </div>
 
